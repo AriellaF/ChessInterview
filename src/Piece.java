@@ -1,12 +1,12 @@
 public class Piece extends Square {
 
 
-    private String name;
+    private final String name;
 
 
     public Piece(int x, int y, boolean Movable, String name) {
         super(x, y, Movable);
-        this.setBlocked(true);
+//        this.setBlocked(true);
         this.name = name;
     }
 

@@ -1,8 +1,8 @@
+import java.util.function.Function;
+
 public class Board {
     Square[][] Board;
     private boolean check;
-    private boolean checkMate;
-    private boolean path;
 
 
     public Board(Piece wK, Piece bK, Piece wQ) {
@@ -33,100 +33,38 @@ public class Board {
 
     }
 
-    public void QueenCover(Piece Queen) {
-
-
+    public void QueenMover(Piece Queen, Function<Integer, Integer> incrI, Function<Integer, Integer> incrJ) {
         int i = Queen.getX();
         int j = Queen.getY();
-        this.path = true;
-
-        //right
         while (this.getSquare(i, j).isMovable()) {
+            if (this.getSquare(i, j) instanceof Piece) {
+                Piece tmp = (Piece) this.getSquare(i, j);
+                if (tmp.getName().equals("bK")) {
 
-            if (this.queenBlocker(i, j)) {
-                break;
+                    this.check = true;
+                } else if (tmp.getName().equals("wK")) {
+                    break;
+                }
             }
-            i++;
+            this.getSquare(i, j).setCover(true);
+            this.getSquare(i, j).setSource(2);
+
+
+            i = incrI.apply(i);
+            j = incrJ.apply(j);
         }
-        i = Queen.getX();
-        j = Queen.getY();
-        this.path = true;
-        //left
-        while (this.getSquare(i, j).isMovable()) {
-            if (this.queenBlocker(i, j)) {
-                break;
-            }
-            i--;
+    }
 
-        }
+    public void QueenCover(Piece Queen) {
 
-        i = Queen.getX();
-        j = Queen.getY();
-        this.path = true;
-        while (this.getSquare(i, j).isMovable()) {
-
-            if (this.queenBlocker(i, j)) {
-                break;
-            }
-            j++;
-        }
-        i = Queen.getX();
-        j = Queen.getY();
-        this.path = true;
-        while (this.getSquare(i, j).isMovable()) {
-
-            if (this.queenBlocker(i, j)) {
-                break;
-            }
-            j--;
-        }
-        i = Queen.getX();
-        j = Queen.getY();
-        this.path = true;
-
-        while (this.getSquare(i, j).isMovable()) {
-            if (this.queenBlocker(i, j)) {
-                break;
-            }
-
-            i++;
-            j++;
-        }
-        i = Queen.getX();
-        j = Queen.getY();
-        this.path = true;
-
-        while (this.getSquare(i, j).isMovable()) {
-            if (this.queenBlocker(i, j)) {
-                break;
-            }
-            i--;
-            j--;
-        }
-        i = Queen.getX();
-        j = Queen.getY();
-        this.path = true;
-
-        while (this.getSquare(i, j).isMovable()) {
-            if (this.queenBlocker(i, j)) {
-                break;
-            }
-
-            i--;
-            j++;
-        }
-        i = Queen.getX();
-        j = Queen.getY();
-        this.path = true;
-
-        while (this.getSquare(i, j).isMovable()) {
-            if (this.queenBlocker(i, j)) {
-                break;
-            }
-
-            i++;
-            j--;
-        }
+        QueenMover(Queen, e -> e + 1, e -> e);
+        QueenMover(Queen, e -> e - 1, e -> e);
+        QueenMover(Queen, e -> e, e -> e + 1);
+        QueenMover(Queen, e -> e, e -> e - 1);
+        QueenMover(Queen, e -> e + 1, e -> e + 1);
+        QueenMover(Queen, e -> e - 1, e -> e - 1);
+        QueenMover(Queen, e -> e + 1, e -> e - 1);
+        QueenMover(Queen, e -> e - 1, e -> e + 1);
         this.getSquare(Queen.getX(), Queen.getY()).setCover(false);
 
     }
@@ -150,12 +88,10 @@ public class Board {
         for (int r = 1; r > -2; r--) {
             for (int c = 1; c > -2; c--) {
                 if (!this.getSquare(r + x, y + c).isCovered()) {
-                    this.checkMate = false;
                     return false;
                 }
             }
         }
-        this.checkMate = true;
         return true;
     }
 
@@ -171,27 +107,6 @@ public class Board {
 
     public boolean isCheck() {
         return check;
-    }
-
-    public boolean queenBlocker(int i, int j) {
-        if (this.getSquare(i, j) instanceof Piece) {
-            Piece tmp = (Piece) this.getSquare(i, j);
-            if (tmp.getName().equals("bK")) {
-                this.path = false;
-                this.check = true;
-            } else if (tmp.getName().equals("wK")) {
-                return true;
-            }
-        }
-        if (this.path) {
-            this.getSquare(i, j).setCover(true);
-            this.getSquare(i, j).setSource(2);
-        } else {
-            this.getSquare(i, j).setCover(true);
-            this.getSquare(i, j).setSource(2);
-            this.getSquare(i, j).setBlocked(true);
-        }
-        return false;
     }
 
 }

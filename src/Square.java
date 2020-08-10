@@ -1,9 +1,8 @@
 public class Square {
-    private boolean Movable;
+    private final boolean Movable;
     private boolean Covered;
-    private boolean blocked;
-    private int x;
-    private int y;
+    private final int x;
+    private final int y;
 
 
     private int source; // 1 = WKing 2 = WQueen 3 = both
@@ -12,7 +11,6 @@ public class Square {
         this.x = x;
         this.y = y;
         this.Movable = Movable;
-        this.blocked = false;
 
         this.Covered = !Movable;
     }
@@ -31,16 +29,9 @@ public class Square {
         return Movable;
     }
 
-    public void setMovable(boolean movable) {
-        Movable = movable;
-    }
 
     public boolean isCovered() {
         return Covered;
-    }
-
-    public void setCovered(boolean covered) {
-        this.Covered = covered;
     }
 
 
@@ -62,11 +53,5 @@ public class Square {
 
     }
 
-    public boolean isBlocked() {
-        return blocked;
-    }
 
-    public void setBlocked(boolean blocked) {
-        this.blocked = blocked;
-    }
 }

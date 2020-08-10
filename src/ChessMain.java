@@ -45,7 +45,7 @@ public class ChessMain {
 
         for (int i = 1; i < 9; i++) {
             for (int j = 1; j < 9; j++) {
-                //wk
+
                 if (Orig.getSquare(i, j).getSource() == 1 && !(Orig.getSquare(i, j) instanceof Piece)) {
                     Kmove(i, j, blackKing, whiteQueen);
                 } else if (Orig.getSquare(i, j).getSource() == 2 && !(Orig.getSquare(i, j) instanceof Piece)) {
@@ -69,7 +69,6 @@ public class ChessMain {
         System.out.println("The white Queen can make the following moves:");
         System.out.println(printList(qMoves));
 
-//        Orig.calcCheckMate(blackKing);
 
 
     }
