@@ -5,6 +5,21 @@ public class Board {
     private boolean check;
 
 
+    private boolean valid = true;
+
+    public Board() {
+        Board = new Square[10][10];
+        for (int i = 0; i < 10; i++) {
+            for (int j = 0; j < 10; j++) {
+                if (i == 0 || j == 0 || i == 9 || j == 9) {
+                    Board[i][j] = new Square(i, j, false);
+                } else {
+                    Board[i][j] = new Square(i, j, true);
+                }
+            }
+        }
+    }
+
     public Board(Piece wK, Piece bK, Piece wQ) {
         Board = new Square[10][10];
         for (int i = 0; i < 10; i++) {
@@ -19,17 +34,20 @@ public class Board {
         Board[wK.getY()][wK.getX()] = wK;
         if (Board[bK.getY()][bK.getX()] instanceof Piece) {
             System.out.println("Invalid configuration! Only one piece allowed per square.");
-            System.exit(0);
+            valid = false;
+            return;
         } else {
             Board[bK.getY()][bK.getX()] = bK;
         }
 
         if (Board[wQ.getY()][wQ.getX()] instanceof Piece) {
             System.out.println("Invalid configuration! Only one piece allowed per square.");
-            System.exit(0);
+            valid = false;
+            return;
         } else {
             Board[wQ.getY()][wQ.getX()] = wQ;
         }
+
 
     }
 
@@ -40,7 +58,6 @@ public class Board {
             if (this.getSquare(i, j) instanceof Piece) {
                 Piece tmp = (Piece) this.getSquare(i, j);
                 if (tmp.getName().equals("bK")) {
-
                     this.check = true;
                 } else if (tmp.getName().equals("wK")) {
                     break;
@@ -74,12 +91,17 @@ public class Board {
         int y = King.getY();
         for (int r = 1; r > -2; r--) {
             for (int c = 1; c > -2; c--) {
-                this.getSquare(r + x, y + c).setCover(true);
-                this.getSquare(r + x, y + c).setSource(1);
-
+                if (King.getName().equals("wK")) {
+                    this.getSquare(r + x, y + c).setCover(true);
+                    this.getSquare(r + x, y + c).setSource(1);
+                } else if (King.getName().equals("bK")) {
+                    this.getSquare(r + x, y + c).setkBlock(true);
+                }
             }
         }
-        this.getSquare(x, y).setCover(false);
+        if (King.getName().equals("wK")) {
+            this.getSquare(x, y).setCover(false);
+        }
     }
 
     public boolean calcCheckMate(Square kingTile) {
@@ -109,4 +131,7 @@ public class Board {
         return check;
     }
 
+    public boolean isValid() {
+        return valid;
+    }
 }

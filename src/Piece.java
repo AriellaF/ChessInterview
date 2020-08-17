@@ -6,7 +6,6 @@ public class Piece extends Square {
 
     public Piece(int x, int y, boolean Movable, String name) {
         super(x, y, Movable);
-//        this.setBlocked(true);
         this.name = name;
     }
 

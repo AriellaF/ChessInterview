@@ -5,13 +5,17 @@ public class Square {
     private final int y;
 
 
+
+    private boolean kBlock;
+
+
     private int source; // 1 = WKing 2 = WQueen 3 = both
 
     public Square(int x, int y, boolean Movable) { // blank tiles
         this.x = x;
         this.y = y;
         this.Movable = Movable;
-
+        this.kBlock = false;
         this.Covered = !Movable;
     }
 
@@ -40,10 +44,9 @@ public class Square {
     }
 
     public void setSource(int source) {
-        if (this.source>0){
-            this.source=3;
-        }
-        else {
+        if (this.source > 0) {
+            this.source = 3;
+        } else {
             this.source = source;
         }
     }
@@ -53,5 +56,11 @@ public class Square {
 
     }
 
+    public boolean iskBlock() {
+        return kBlock;
+    }
 
+    public void setkBlock(boolean kBlock) {
+        this.kBlock = kBlock;
+    }
 }
