@@ -12,23 +12,12 @@ public class ChessMain {
     static Board Orig;
     static boolean thrown = false;
 
-    // g2 h1 a8         because white king blocks queens check initially (queen can only move up and left)
-    // c3 h2 a1         tests if king protecting the queen causes checkmate
-    // c8 h2 a1         opposite of above - if program sees unprotected queen next to opposing king = not checkmate
-    // a1 b1 a3         white king cant move
-    // i8 a1 b7         test if program will deny out of bounds moves or will it just break
-    // a1 a1 a1         test if program denies piles of pieces
-    // a1 c8 a2         test if program doesnt allow adjacent kings
-    // a1 c8 c7         test if it denies starting in check (shoud work the same for starting in check mate)
-    // b4 d6 e3         generic starting positions
-    // f1 a1 h1         generic starting position - checkmate possible with queen moving to h8
     public static void main(String[] args) {
         test();
         Scanner scanner = new Scanner(System.in);
 
         System.out.println("Please enter location of the white king.");
         String wKing = scanner.next();
-//        if (parseX(wKing))
 
         System.out.println("Please enter location of the white queen.");
         String wQueen = scanner.next();
@@ -68,11 +57,9 @@ public class ChessMain {
         Piece blackKing = new Piece(parseX(bKing), parseY(bKing), true, "bK");
 
 
-//        blackKing.setCover(false);
         try {
             Orig = new Board(whiteKing, blackKing, whiteQueen);
             if (!Orig.isValid()) {
-//                System.out.println("not valid");
                 thrown = true;
                 return;
             }
@@ -151,7 +138,6 @@ public class ChessMain {
         Board tmp = new Board(move, BK, WQ);
         tmp.kingCover(move);
         tmp.QueenCover(WQ);
-//        tmp.kingCover(bK);
 
 
         if (tmp.calcCheckMate(BK)) {
@@ -192,9 +178,6 @@ public class ChessMain {
                 } else if (!b.getSquare(j, i).isMovable()) {
                     System.out.print("x");
 
-//                } else if (b.getSquare(j, i).iskBlock()) {
-//                    System.out.print(".");
-
                 } else if (b.getSquare(j, i).isCovered()) {
                     System.out.print("+");
                 } else {
@@ -225,6 +208,9 @@ public class ChessMain {
         // i8 a1 b7         5. test if program will deny out of bounds moves or will it just break
         // a1 a1 a1         6. test if program denies piles of pieces
         // a1 c8 a2         7. test if program doesnt allow adjacent kings
+        // a1 c8 c7         8. test if it denies starting in check (shoud work the same for starting in check mate)
+        // b4 d6 e3         9. generic starting positions
+        // f1 a1 h1         10. generic starting position - checkmate possible with queen moving to h8
 
 
         System.out.println("Test 1: g2 h1 a8");
@@ -347,33 +333,11 @@ public class ChessMain {
         }
         reset();
     }
-    // a1 c8 c7         8. test if it denies starting in check (shoud work the same for starting in check mate)
-    // b4 d6 e3         9. generic starting positions
-    // f1 a1 h1         10. generic starting position - checkmate possible with queen moving to h8
 
 }
 
 
-//        PlayChess("c8", "e2", "a1");
-//
-//
-//        PlayChess("c3", "e3", "a1");
-//
-//
-//        PlayChess("f5", "e5", "b8");
-//
-//        PlayChess("e5", "f5", "b8");
 
 
 
 
-    /*
-    Tests:
-    black king in corner:
-    c8 e2 a1
-    White queen and king a square away:
-    c3 e3 a1
-    White pieces adjacent:
-    e5 f5 d2
-    f5 e5 d2
-     */
